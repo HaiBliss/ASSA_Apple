@@ -3,30 +3,55 @@
     "apps": [],
     "details": [
       {
-        "appID": "MKPFZKJJW6.jp.zyyx.oha.jumpapp.dev.trader",
+        "appID": "WCQ95ZYNFX.jp.co.takenaka.IchiPlusLocation",
         "paths": [
-          "/oha_jumpapp/open-app.html"
+          "/ichiplus/sever/password*",
+          "/ichiplus/sever/baseQRInfo*",
+          "/ichiplus/sever/baseRentalQRInfo*",
+          "/ichiplus/sever/QRreader*",
+          "/ichiplus/sever/extWebLink*",
+          "/ichiplus/sever/extAppLink*",
+          "/ichiplus/sever/RFIDreader*",
+          "/ichiplus/sever/Beacon*",
+          "/ichiplus/sever/reservations*"
         ]
       },
       {
-        "appID": "MKPFZKJJW6.jp.zyyx.oha.jumpapp.dev",
+        "appID": "T2U38TC2LN.jp.asahi-ko-san.IchiPlusBase",
         "paths": [
-          "/oha_jumpapp/open-app.html"
+          "/ichiplus/sever/password*",
+          "/ichiplus/sever/baseQRInfo*",
+          "/ichiplus/sever/baseRentalQRInfo*",
+          "/ichiplus/sever/QRreader*",
+          "/ichiplus/sever/extWebLink*",
+          "/ichiplus/sever/extAppLink*",
+          "/ichiplus/sever/RFIDreader*",
+          "/ichiplus/sever/Beacon*",
+          "/ichiplus/sever/reservations*"
         ]
       },
       {
-        "appID": "NF2ZR4R9P7.com.fpt.shingenpro",
+        "appID": "KWL6GTWP8L.vn.co.takenaka.IchiPlusBase",
         "paths": [
-          "/oha_jumpapp/open-app.html"
+          "/ichiplus/sever/password*",
+          "/ichiplus/sever/baseQRInfo*",
+          "/ichiplus/sever/baseRentalQRInfo*",
+          "/ichiplus/sever/QRreader*",
+          "/ichiplus/sever/extWebLink*",
+          "/ichiplus/sever/extAppLink*",
+          "/ichiplus/sever/RFIDreader*",
+          "/ichiplus/sever/Beacon*",
+          "/ichiplus/sever/reservations*",
+          "/kosha_yoyaku/checkEquips*"
         ]
       }
     ]
   },
   "webcredentials": {
     "apps": [
-      "MKPFZKJJW6.jp.zyyx.oha.jumpapp.dev.trader",
-      "MKPFZKJJW6.jp.zyyx.oha.jumpapp.dev",
-      "NF2ZR4R9P7.com.fpt.shingenpro"
+      "T2U38TC2LN.jp.asahi-ko-san.IchiPlusBase",
+      "KWL6GTWP8L.vn.co.takenaka.IchiPlusBase",
+      "WCQ95ZYNFX.jp.co.takenaka.IchiPlusLocation"
     ]
   }
 }
