@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open App</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            text-align: center;
+            padding-top: 50px;
+        }
+        .message {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="message">Attempting to open the app...</div>
+    <div class="message">If the app doesn't open, you will be redirected to the app download page.</div>
+
+    <script>
+        // Configuration: Replace these URLs with your app's URLs
+        const fallbackUrlIOS = 'https://apps.apple.com/us/app/your-app-id'; // Replace with your app's App Store URL
+        const fallbackUrlAndroid = 'https://play.google.com/store/apps/details?id=your.package.name'; // Replace with your app's Google Play Store URL
+        const fallbackUrlWebsite = 'https://www.google.com/'; // Fallback URL if not iOS/Android or if you want to redirect to a website
+
+        // Delay before redirecting to the fallback URL (milliseconds)
+        const fallbackDelay = 2500; // 2.5 seconds
+
+        function openAppOrFallback() {
+            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+            let fallbackUrl = fallbackUrlWebsite; // Default to website URL
+
+            // Determine the operating system and appropriate fallback URL
+            if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+                // iOS device
+                fallbackUrl = fallbackUrlIOS;
+            } else if (/android/i.test(userAgent)) {
+                // Android device
+                fallbackUrl = fallbackUrlAndroid;
+            }
+                // Try opening the app using the URL scheme 
+                // Set a timer to redirect to the fallback URL if the app doesn't open
+                setTimeout(function() {
+                    window.location.href = fallbackUrl;
+                }, fallbackDelay);
+
+        }
+
+        // Run the function when the page is loaded
+        window.onload = openAppOrFallback;
+
+    </script>
+
+</body>
+</html>
