@@ -5,43 +5,29 @@
       {
         "appID": "WCQ95ZYNFX.jp.co.takenaka.IchiPlusLocation",
         "paths": [
-          "/ichiplus/sever/password*",
-          "/ichiplus/sever/baseQRInfo*",
-          "/ichiplus/sever/baseRentalQRInfo*",
-          "/ichiplus/sever/QRreader*",
-          "/ichiplus/sever/extWebLink*",
-          "/ichiplus/sever/extAppLink*",
-          "/ichiplus/sever/RFIDreader*",
-          "/ichiplus/sever/Beacon*",
-          "/ichiplus/sever/reservations*"
-        ]
-      },
-      {
-        "appID": "T2U38TC2LN.jp.asahi-ko-san.IchiPlusBase",
-        "paths": [
-          "/ichiplus/sever/password*",
-          "/ichiplus/sever/baseQRInfo*",
-          "/ichiplus/sever/baseRentalQRInfo*",
-          "/ichiplus/sever/QRreader*",
-          "/ichiplus/sever/extWebLink*",
-          "/ichiplus/sever/extAppLink*",
-          "/ichiplus/sever/RFIDreader*",
-          "/ichiplus/sever/Beacon*",
-          "/ichiplus/sever/reservations*"
+          "/server/password*",
+          "/server/baseQRInfo*",
+          "/server/baseRentalQRInfo*",
+          "/server/QRreader*",
+          "/server/extWebLink*",
+          "/server/extAppLink*",
+          "/server/RFIDreader*",
+          "/server/Beacon*",
+          "/server/reservations*"
         ]
       },
       {
         "appID": "D5NVNWQFKD.vn.co.takenaka.IchiPlusBase",
         "paths": [
-          "/ichiplus/sever/password*",
-          "/ichiplus/sever/baseQRInfo*",
-          "/ichiplus/sever/baseRentalQRInfo*",
-          "/ichiplus/sever/QRreader*",
-          "/ichiplus/sever/extWebLink*",
-          "/ichiplus/sever/extAppLink*",
-          "/ichiplus/sever/RFIDreader*",
-          "/ichiplus/sever/Beacon*",
-          "/ichiplus/sever/reservations*",
+          "/server/password*",
+          "/server/baseQRInfo*",
+          "/server/baseRentalQRInfo*",
+          "/server/QRreader*",
+          "/server/extWebLink*",
+          "/server/extAppLink*",
+          "/server/RFIDreader*",
+          "/server/Beacon*",
+          "/server/reservations*",
           "/kosha_yoyaku/checkEquips*"
         ]
       }
