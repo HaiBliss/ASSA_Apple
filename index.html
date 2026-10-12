@@ -1,324 +1,653 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Universal Links Test - IchiNinshiki</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="color-scheme" content="dark light">
+  <title>Universal Links Test · IchiPlus</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --bg: #0F172A;
+      --card: #1B2336;
+      --card-press: #232D44;
+      --fg: #F8FAFC;
+      --muted: #94A3B8;
+      --border: #2B3550;
+      --input-border: #475569;
+      --accent: #22C55E;
+      --on-accent: #0F172A;
+      --accent-text: #4ADE80;
+      --accent-soft: rgba(34, 197, 94, 0.12);
+      --danger: #F87171;
+      --warn-soft: rgba(250, 204, 21, 0.10);
+      --warn-text: #FDE68A;
+      --ring: #F8FAFC;
+      --scrim: rgba(2, 6, 23, 0.72);
+
+      --font-sans: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP", "Segoe UI", sans-serif;
+      --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+      --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px; --space-5: 24px; --space-6: 32px;
+      --radius: 12px;
+      --radius-sm: 8px;
+      --ease: cubic-bezier(0.2, 0, 0, 1);
+      --dur: 180ms;
+    }
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg: #F1F5F9;
+        --card: #FFFFFF;
+        --card-press: #F1F5F9;
+        --fg: #0F172A;
+        --muted: #475569;
+        --border: #E2E8F0;
+        --input-border: #94A3B8;
+        --accent: #15803D;
+        --on-accent: #FFFFFF;
+        --accent-text: #15803D;
+        --accent-soft: rgba(21, 128, 61, 0.10);
+        --danger: #B91C1C;
+        --warn-soft: #FEF9C3;
+        --warn-text: #713F12;
+        --ring: #0F172A;
+        --scrim: rgba(15, 23, 42, 0.5);
+      }
+    }
+
     * { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: #f2f2f7;
       margin: 0;
-      padding: 20px;
-      color: #1c1c1e;
-    }
-    h1 { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
-    .subtitle { color: #8e8e93; font-size: 13px; margin-bottom: 24px; }
-    .section { margin-bottom: 28px; }
-    .section-title {
-      font-size: 12px;
-      font-weight: 600;
-      color: #8e8e93;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 8px;
-      padding-left: 4px;
-    }
-    .card {
-      background: #fff;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-    }
-    .link-item {
-      display: block;
-      padding: 14px 16px;
-      text-decoration: none;
-      color: #007aff;
-      font-size: 15px;
-      border-bottom: 1px solid #f2f2f7;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .link-item:last-child { border-bottom: none; }
-    .link-item .icon { font-size: 20px; width: 28px; text-align: center; }
-    .link-item .info { flex: 1; }
-    .link-item .name { font-weight: 600; color: #1c1c1e; font-size: 15px; }
-    .link-item .url { font-size: 11px; color: #8e8e93; margin-top: 2px; word-break: break-all; }
-    .link-item .arrow { color: #c7c7cc; font-size: 14px; }
-    .aasa-box {
-      background: #fff;
-      border-radius: 12px;
-      padding: 14px 16px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-    }
-    .aasa-box a { color: #007aff; word-break: break-all; font-size: 14px; }
-    .tip {
-      background: #fff9c4;
-      border-radius: 10px;
-      padding: 12px 14px;
-      font-size: 13px;
-      color: #7d6608;
-      margin-bottom: 20px;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: var(--font-sans);
+      font-size: 16px;
       line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
     }
-    .qr-item { padding: 20px 16px; text-align: center; }
-    .qr-item .qr { width: 200px; height: 200px; background: #fff; display: block; margin: 0 auto 12px; }
-    .qr-item .name { font-weight: 600; font-size: 15px; }
-    .qr-item .url { font-size: 11px; color: #8e8e93; margin-top: 4px; word-break: break-all; }
-    .qr-item .hint { font-size: 12px; color: #8e8e93; margin-top: 8px; }
-    .qr-inputs { display: flex; gap: 10px; margin-bottom: 16px; text-align: left; }
-    .qr-inputs label { flex: 1; font-size: 12px; font-weight: 600; color: #8e8e93; }
-    .qr-inputs input { display: block; width: 100%; margin-top: 4px; padding: 10px 12px; font-size: 16px; border: 1px solid #d1d1d6; border-radius: 8px; color: #1c1c1e; background: #fff; }
-    .qr-inputs input:focus { outline: none; border-color: #007aff; }
+    .wrap {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: calc(var(--space-5) + env(safe-area-inset-top)) max(var(--space-4), env(safe-area-inset-right)) calc(var(--space-6) + env(safe-area-inset-bottom)) max(var(--space-4), env(safe-area-inset-left));
+    }
+    a { color: inherit; }
+    :focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; border-radius: var(--radius-sm); }
+    .ic { width: 20px; height: 20px; flex: none; }
+    .ic-muted { color: var(--muted); }
+    .mono { font-family: var(--font-mono); }
+
+    /* Header */
+    .eyebrow { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent-text); margin: 0 0 var(--space-2); }
+    h1 { font-size: 28px; line-height: 1.2; font-weight: 700; letter-spacing: -0.01em; margin: 0 0 var(--space-2); }
+    .lead { color: var(--muted); margin: 0 0 var(--space-5); font-size: 15px; }
+    .lead .mono { color: var(--fg); font-size: 14px; }
+
+    /* Status + note */
+    .status {
+      display: flex; align-items: center; gap: var(--space-3);
+      padding: var(--space-3) var(--space-4);
+      min-height: 56px;
+      background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+      text-decoration: none;
+      transition: background-color var(--dur) var(--ease);
+    }
+    .status:active { background: var(--card-press); }
+    .status .ic { color: var(--muted); }
+    .status[data-state="ok"] .ic { color: var(--accent-text); }
+    .status[data-state="error"] .ic { color: var(--danger); }
+    .status-text { flex: 1; min-width: 0; }
+    .status-title { display: block; font-weight: 600; font-size: 15px; }
+    .status-detail { display: block; font-family: var(--font-mono); font-size: 12px; color: var(--muted); overflow-wrap: anywhere; }
+    .note {
+      display: flex; gap: var(--space-3);
+      margin: var(--space-3) 0 var(--space-5);
+      padding: var(--space-3) var(--space-4);
+      background: var(--warn-soft); color: var(--warn-text);
+      border-radius: var(--radius); font-size: 14px;
+    }
+    .note .ic { margin-top: 1px; }
+    .note p { margin: 0; }
+
+    /* Search */
+    .search {
+      position: sticky; top: 0; z-index: 5;
+      margin: 0 calc(-1 * var(--space-4)) var(--space-4);
+      padding: var(--space-2) var(--space-4);
+      background: var(--bg);
+    }
+    .search-field { position: relative; }
+    .search-ic { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); pointer-events: none; }
+    .search input {
+      width: 100%; height: 48px;
+      padding: 0 var(--space-4) 0 44px;
+      font: inherit; font-size: 16px; color: var(--fg);
+      background: var(--card); border: 1px solid var(--input-border); border-radius: var(--radius);
+      -webkit-appearance: none; appearance: none;
+    }
+    .search input::placeholder { color: var(--muted); }
+    .search input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+    .empty { display: none; text-align: center; color: var(--muted); padding: var(--space-6) 0; margin: 0; }
+    .empty.show { display: block; }
+
+    /* Groups */
+    .group { margin-bottom: var(--space-5); }
+    .group-title {
+      display: flex; align-items: center; gap: var(--space-2);
+      margin: 0 0 var(--space-2); padding: 0 var(--space-1);
+      font-size: 13px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted);
+    }
+    .count { font-family: var(--font-mono); font-size: 11px; font-weight: 500; padding: 1px 6px; border: 1px solid var(--border); border-radius: 999px; }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+    .list { list-style: none; margin: 0; padding: 0; }
+    .row { display: flex; align-items: stretch; border-top: 1px solid var(--border); }
+    .row:first-child { border-top: 0; }
+    .row[hidden] { display: none; }
+    .row-link {
+      flex: 1; min-width: 0;
+      display: flex; align-items: center; gap: var(--space-3);
+      min-height: 64px; padding: var(--space-3) var(--space-2) var(--space-3) var(--space-4);
+      text-decoration: none;
+      transition: background-color var(--dur) var(--ease);
+    }
+    .row-link:active { background: var(--card-press); }
+    .row-link:focus-visible { outline-offset: -2px; }
+    .row-text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+    .row-name { font-weight: 600; font-size: 16px; }
+    .row-path { font-family: var(--font-mono); font-size: 13px; color: var(--accent-text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .row-params { font-family: var(--font-mono); font-size: 12px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .icon-btn {
+      flex: none;
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 44px; height: 44px; padding: 0;
+      color: var(--fg); background: transparent; border: 0; border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: background-color var(--dur) var(--ease);
+    }
+    .icon-btn:active { background: var(--card-press); }
+    .qr-btn { align-self: center; margin-right: var(--space-2); }
+
+    /* Builder */
+    .builder { padding: var(--space-4); }
+    .fields { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); margin-bottom: var(--space-4); }
+    .field label { display: block; font-size: 13px; font-weight: 600; color: var(--muted); margin-bottom: var(--space-1); }
+    .field input {
+      width: 100%; height: 48px; padding: 0 var(--space-3);
+      font-family: var(--font-mono); font-size: 16px; color: var(--fg);
+      background: var(--bg); border: 1px solid var(--input-border); border-radius: var(--radius-sm);
+      -webkit-appearance: none; appearance: none;
+    }
+    .field input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+
+    /* QR */
+    .qr-frame {
+      width: 232px; max-width: 100%; aspect-ratio: 1;
+      margin: 0 auto var(--space-3);
+      padding: 16px; background: #FFFFFF; border: 1px solid var(--border); border-radius: var(--radius);
+      display: flex; align-items: center; justify-content: center;
+      color: #475569; font-size: 13px; text-align: center;
+    }
+    .qr-frame svg { width: 100%; height: 100%; display: block; }
+    .qr-url {
+      font-family: var(--font-mono); font-size: 13px; color: var(--accent-text);
+      text-align: center; overflow-wrap: anywhere; margin: 0 0 var(--space-4);
+    }
+    .qr-caption { text-align: center; font-weight: 600; margin: 0 0 var(--space-1); }
+    .actions { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2);
+      height: 48px; padding: 0 var(--space-4);
+      font: inherit; font-size: 15px; font-weight: 600; text-decoration: none;
+      border-radius: var(--radius-sm); border: 1px solid var(--input-border);
+      background: transparent; color: var(--fg); cursor: pointer;
+      transition: background-color var(--dur) var(--ease), opacity var(--dur) var(--ease);
+    }
+    .btn:active { background: var(--card-press); }
+    .btn-primary { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+    .btn-primary:active { background: var(--accent); opacity: 0.85; }
+    .btn[aria-disabled="true"], .btn:disabled { opacity: 0.4; pointer-events: none; }
+
+    /* Dialog */
+    dialog.sheet {
+      width: min(440px, calc(100% - 2 * var(--space-4)));
+      max-height: calc(100% - 2 * var(--space-4));
+      padding: 0; margin: auto;
+      color: var(--fg); background: var(--card);
+      border: 1px solid var(--border); border-radius: 16px;
+    }
+    dialog.sheet::backdrop { background: var(--scrim); }
+    .sheet-head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); padding: var(--space-2) var(--space-2) 0 var(--space-4); }
+    .sheet-head h2 { margin: 0; font-size: 17px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .sheet-body { padding: var(--space-3) var(--space-4) var(--space-4); }
+    .sheet-body .qr-url { text-align: left; }
+
+    .live { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+    .foot { margin-top: var(--space-6); text-align: center; font-size: 12px; color: var(--muted); font-family: var(--font-mono); }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { transition: none !important; animation: none !important; }
+    }
+    @media (min-width: 768px) {
+      h1 { font-size: 32px; }
+      .wrap { padding-top: var(--space-6); }
+      .row-link:hover, .status:hover, .icon-btn:hover, .btn:not(.btn-primary):hover { background: var(--card-press); }
+    }
   </style>
 </head>
 <body>
+<div class="wrap">
 
-<h1>Universal Links Test</h1>
-<p class="subtitle">IchiNinshiki — tap link trên device để test</p>
+  <header>
+    <p class="eyebrow">IchiPlus · Link Lab</p>
+    <h1>Universal Links Test</h1>
+    <p class="lead">Kiểm tra Universal Link trên domain <span class="mono" id="origin-label">assahaihh.netlify.app</span></p>
+  </header>
 
-<div class="tip">
-  💡 Mở trang này trên <b>iPhone/iPad</b> có cài app. Tap link để kiểm tra Universal Link có mở app không.
-</div>
+  <a class="status" id="aasa" href="/.well-known/apple-app-site-association" target="_blank" rel="noopener" data-state="pending">
+    <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>
+    <span class="status-text">
+      <span class="status-title">apple-app-site-association</span>
+      <span class="status-detail" id="aasa-detail">Đang kiểm tra…</span>
+    </span>
+    <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+  </a>
 
-<!-- AASA -->
-<div class="section">
-  <div class="section-title">Apple App Site Association</div>
-  <div class="aasa-box">
-    <a href="/.well-known/apple-app-site-association" target="_blank">
-      /.well-known/apple-app-site-association
-    </a>
+  <div class="note">
+    <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+    <p>iOS không mở app khi bấm link <b>cùng domain</b> ngay trong Safari. Hãy bấm nút QR rồi quét bằng Camera của một iPhone có cài app.</p>
   </div>
-</div>
 
-<!-- Account domain (production / dev2) -->
-<div class="section">
-  <div class="section-title">Account</div>
-  <div class="card">
-    <a class="link-item" href="https://account.ichiplus.com/account/startup">
-      <span class="icon">🚀</span>
-      <div class="info">
-        <div class="name">Startup (prod)</div>
-        <div class="url">account.ichiplus.com /account/startup</div>
-      </div>
-      <span class="arrow">›</span>
-    </a>
-    <a class="link-item" href="https://account.ichi-plus-dev2.zyyx.jp/account/extWebLink">
-      <span class="icon">🌐</span>
-      <div class="info">
-        <div class="name">extWebLink (dev2)</div>
-        <div class="url">account.ichi-plus-dev2.zyyx.jp /account/extWebLink</div>
-      </div>
-      <span class="arrow">›</span>
-    </a>
-    <a class="link-item" href="https://account.ichi-plus-dev2.zyyx.jp/account/extAppLink">
-      <span class="icon">📱</span>
-      <div class="info">
-        <div class="name">extAppLink (dev2)</div>
-        <div class="url">account.ichi-plus-dev2.zyyx.jp /account/extAppLink</div>
-      </div>
-      <span class="arrow">›</span>
-    </a>
-  </div>
-</div>
-
-<!-- QRreader Rental -->
-<div class="section">
-  <div class="section-title">QRreader Rental</div>
-  <div class="card">
-    <a class="link-item" href="server/QRreader?ProjectID=1201&uiType=rental&listType=RENTAL_SEARCH&workerID=W01274&x-success=https://rental.ichi-plus-dev2.zyyx.jp/rental/search/rental_list/1201?back130041">
-      <span class="icon">📷</span>
-      <div class="info">
-        <div class="name">rental 1201</div>
-        <div class="url">QRreader ProjectID=1201 workerID=W01274</div>
-      </div>
-      <span class="arrow">›</span>
-    </a>
-    <a class="link-item" href="server/QRreader?ProjectID=1047&uiType=rental&listType=RENTAL_SEARCH&workerID=W01274&x-success=https://rental.ichi-plus-dev2.zyyx.jp/rental/search/rental_list/1047?back130041">
-      <span class="icon">📷</span>
-      <div class="info">
-        <div class="name">rental 1047</div>
-        <div class="url">QRreader ProjectID=1047 workerID=W01274</div>
-      </div>
-      <span class="arrow">›</span>
-    </a>
-  </div>
-</div>
-
-<!-- Base QR Info -->
-<div class="section">
-  <div class="section-title">Base QR Info</div>
-  <div class="card">
-    <a class="link-item" href="server/baseQRInfo?projectID=1048&floorID=111&xcoordi=222&ycoordi=333">
-      <span class="icon">📍</span>
-      <div class="info">
-        <div class="name">1048</div>
-        <div class="url">baseQRInfo projectID=1048 floorID=111</div>
-      </div>
-      <span class="arrow">›</span>
-    </a>
-    <a class="link-item" href="server/baseQRInfo?projectID=1047&floorID=111&xcoordi=222&ycoordi=333">
-      <span class="icon">📍</span>
-      <div class="info">
-        <div class="name">1047</div>
-        <div class="url">baseQRInfo projectID=1047 floorID=111</div>
-      </div>
-      <span class="arrow">›</span>
-    </a>
-    <a class="link-item" href="server/baseQRInfo?projectID=1201&floorID=111&xcoordi=222&ycoordi=333">
-      <span class="icon">📍</span>
-      <div class="info">
-        <div class="name">1201 Matsusaka</div>
-        <div class="url">baseQRInfo projectID=1201 floorID=111</div>
-      </div>
-      <span class="arrow">›</span>
-    </a>
-  </div>
-</div>
-
-<!-- Base Rental QR Info - Inventory -->
-<div class="section">
-  <div class="section-title">Base Rental QR Info (Inventory)</div>
-  <div class="card">
-    <a class="link-item" href="server/baseRentalQRInfo?projectID=1048&type=inventory&x-success=https://ichi-plus-dev2.zyyx.jp/rental/search/rental_list/1047?back163409&workerID=W03729">
-      <span class="icon">🏗️</span>
-      <div class="info">
-        <div class="name">inventory 1048 W03729</div>
-        <div class="url">projectID=1048 type=inventory</div>
-      </div>
-      <span class="arrow">›</span>
-    </a>
-    <a class="link-item" href="server/baseRentalQRInfo?projectID=1047&type=inventory&x-success=https://ichi-plus-dev2.zyyx.jp/rental/search/rental_list/1047?back163409&workerID=W03729">
-      <span class="icon">🏗️</span>
-      <div class="info">
-        <div class="name">inventory 1047 W03729</div>
-        <div class="url">projectID=1047 type=inventory</div>
-      </div>
-      <span class="arrow">›</span>
-    </a>
-    <a class="link-item" href="server/baseRentalQRInfo?projectID=1048&type=search&x-success=https://ichi-plus-dev2.zyyx.jp/rental/search/rental_list/1047?back163409&workerID=W03729">
-      <span class="icon">🔍</span>
-      <div class="info">
-        <div class="name">search 1048 W03729</div>
-        <div class="url">projectID=1048 type=search</div>
-      </div>
-      <span class="arrow">›</span>
-    </a>
-    <a class="link-item" href="server/baseRentalQRInfo?projectID=1047&type=search&x-success=https://ichi-plus-dev2.zyyx.jp/rental/search/rental_list/1047?back163409&workerID=W03729">
-      <span class="icon">🔍</span>
-      <div class="info">
-        <div class="name">search 1047 W03729</div>
-        <div class="url">projectID=1047 type=search</div>
-      </div>
-      <span class="arrow">›</span>
-    </a>
-  </div>
-</div>
-
-<!-- Other (Password, Reservations, Readers) -->
-<div class="section">
-  <div class="section-title">Khác (Password, Reservations, Readers)</div>
-  <div class="card">
-    <a class="link-item" href="server/password?token=TEST_TOKEN_123">
-      <span class="icon">🔑</span>
-      <div class="info">
-        <div class="name">Change Password</div>
-        <div class="url">/password?token=TEST_TOKEN_123</div>
-      </div>
-      <span class="arrow">›</span>
-    </a>
-    <a class="link-item" href="server/reservations?projectID=1047&belongID=BELONG_01&equipID=EQUIP_01&reservedDate=2026-03-01&ampm=am&unlock=0">
-      <span class="icon">🔐</span>
-      <div class="info">
-        <div class="name">Reservations</div>
-        <div class="url">/reservations projectID=1047</div>
-      </div>
-      <span class="arrow">›</span>
-    </a>
-    <a class="link-item" href="server/RFIDreader?ProjectID=1047&x-success=ichiplus-base://callback">
-      <span class="icon">📡</span>
-      <div class="info">
-        <div class="name">RFID Reader</div>
-        <div class="url">/RFIDreader ProjectID=1047</div>
-      </div>
-      <span class="arrow">›</span>
-    </a>
-    <a class="link-item" href="server/Beacon?ProjectID=1047&x-success=ichiplus-base://callback">
-      <span class="icon">🔵</span>
-      <div class="info">
-        <div class="name">Beacon</div>
-        <div class="url">/Beacon ProjectID=1047</div>
-      </div>
-      <span class="arrow">›</span>
-    </a>
-  </div>
-</div>
-
-<!-- Kosha Yoyaku -->
-<div class="section">
-  <div class="section-title">Kosha Yoyaku</div>
-  <div class="card">
-    <div class="qr-item">
-      <div class="qr-inputs">
-        <label>projectID<input id="ce-project" type="text" inputmode="numeric" value="1201" autocomplete="off"></label>
-        <label>equipID<input id="ce-equip" type="text" inputmode="numeric" value="9001" autocomplete="off"></label>
-      </div>
-      <div id="ce-qr"><svg class="qr" shape-rendering="crispEdges" role="img" aria-label="QR checkEquips" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 41 41"><path stroke="#000" d="M2 2.5h7m3 0h3m2 0h4m1 0h1m1 0h1m1 0h3m3 0h7m-37 1h1m5 0h1m2 0h5m1 0h1m2 0h2m1 0h1m5 0h1m2 0h1m5 0h1m-37 1h1m1 0h3m1 0h1m1 0h1m1 0h1m4 0h2m1 0h5m1 0h1m2 0h1m2 0h1m1 0h3m1 0h1m-37 1h1m1 0h3m1 0h1m1 0h1m1 0h1m2 0h1m1 0h1m1 0h1m1 0h1m5 0h3m2 0h1m1 0h3m1 0h1m-37 1h1m1 0h3m1 0h1m1 0h1m2 0h2m1 0h1m1 0h1m1 0h3m2 0h1m4 0h1m1 0h1m1 0h3m1 0h1m-37 1h1m5 0h1m1 0h3m4 0h1m2 0h1m1 0h1m1 0h1m1 0h1m2 0h2m1 0h1m5 0h1m-37 1h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7m-29 1h2m3 0h4m2 0h1m3 0h1m2 0h2m-28 1h1m1 0h5m3 0h2m1 0h1m1 0h1m2 0h1m1 0h3m1 0h2m2 0h1m1 0h5m-35 1h1m2 0h3m1 0h1m2 0h1m2 0h1m1 0h2m8 0h1m5 0h1m1 0h3m-36 1h1m5 0h1m1 0h1m1 0h1m2 0h2m3 0h1m1 0h1m1 0h3m2 0h1m2 0h2m1 0h1m1 0h2m-37 1h3m4 0h2m2 0h4m1 0h1m4 0h1m1 0h1m5 0h3m4 0h1m-36 1h3m1 0h2m1 0h2m1 0h1m4 0h1m3 0h1m1 0h4m1 0h1m1 0h2m1 0h5m-37 1h1m1 0h1m1 0h1m2 0h5m1 0h2m1 0h2m1 0h3m1 0h1m1 0h1m2 0h2m1 0h1m-32 1h1m1 0h2m1 0h5m4 0h4m2 0h2m3 0h4m2 0h3m1 0h2m-37 1h1m4 0h1m1 0h2m2 0h4m2 0h6m1 0h1m1 0h2m1 0h4m2 0h1m-35 1h3m2 0h1m2 0h4m3 0h1m2 0h1m1 0h1m1 0h3m1 0h6m1 0h1m1 0h1m-36 1h3m5 0h1m2 0h1m2 0h1m1 0h2m1 0h3m1 0h3m2 0h1m1 0h1m3 0h1m-33 1h1m2 0h2m7 0h3m1 0h1m1 0h1m2 0h5m1 0h2m3 0h2m-37 1h1m1 0h1m1 0h2m1 0h1m1 0h1m1 0h2m2 0h1m3 0h4m1 0h1m2 0h1m1 0h1m6 0h1m-37 1h2m1 0h2m1 0h2m3 0h1m2 0h2m1 0h1m1 0h1m2 0h1m1 0h4m1 0h2m1 0h3m-35 1h1m1 0h1m1 0h2m1 0h3m2 0h2m2 0h1m2 0h2m1 0h2m1 0h1m2 0h2m3 0h1m-34 1h4m1 0h4m3 0h1m1 0h3m1 0h1m1 0h1m1 0h1m1 0h1m2 0h1m2 0h4m1 0h2m-37 1h1m2 0h3m1 0h1m1 0h5m1 0h1m3 0h1m6 0h2m2 0h3m2 0h1m-36 1h1m1 0h2m1 0h3m2 0h1m4 0h1m2 0h8m2 0h5m1 0h2m-36 1h2m1 0h2m4 0h2m2 0h1m1 0h3m3 0h1m2 0h3m2 0h1m1 0h1m1 0h1m-34 1h1m1 0h2m2 0h1m1 0h1m1 0h2m1 0h2m3 0h1m1 0h2m3 0h4m1 0h2m2 0h3m-37 1h1m1 0h1m5 0h1m1 0h1m1 0h3m1 0h1m4 0h1m2 0h1m3 0h2m1 0h1m4 0h1m-37 1h1m5 0h1m1 0h6m3 0h1m4 0h1m1 0h3m1 0h7m1 0h1m-29 1h3m1 0h1m1 0h1m1 0h8m3 0h2m3 0h2m-34 1h7m3 0h4m1 0h3m2 0h2m2 0h1m3 0h1m1 0h1m1 0h1m1 0h1m1 0h1m-37 1h1m5 0h1m1 0h1m1 0h3m1 0h2m1 0h6m5 0h1m3 0h2m1 0h2m-37 1h1m1 0h3m1 0h1m1 0h1m4 0h2m1 0h1m2 0h1m1 0h1m3 0h1m1 0h6m1 0h3m-37 1h1m1 0h3m1 0h1m1 0h2m2 0h2m1 0h1m1 0h2m1 0h5m1 0h1m2 0h2m1 0h3m1 0h1m-37 1h1m1 0h3m1 0h1m1 0h1m5 0h4m1 0h1m1 0h1m2 0h1m1 0h2m6 0h3m-37 1h1m5 0h1m2 0h1m3 0h1m1 0h1m3 0h3m2 0h1m1 0h3m1 0h1m1 0h1m3 0h1m-37 1h7m1 0h5m2 0h3m1 0h1m5 0h3m1 0h1m2 0h2m1 0h2"/></svg></div>
-      <div class="name" id="ce-name">Check Equips (1201 / 9001)</div>
-      <div class="url" id="ce-url">https://assahaihh.netlify.app/kosha_yoyaku/checkEquips/1201/9001</div>
-      <div class="hint">Quét bằng Camera của iPhone để mở app</div>
+  <div class="search" role="search">
+    <div class="search-field">
+      <svg class="ic ic-muted search-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      <input id="filter" type="search" placeholder="Lọc theo tên, path, projectID…" aria-label="Lọc link" autocomplete="off" autocapitalize="off" spellcheck="false">
     </div>
   </div>
+
+  <main id="groups">
+    <section class="group" aria-labelledby="g-kosha" data-static>
+      <h2 class="group-title" id="g-kosha">Kosha Yoyaku · checkEquips</h2>
+      <div class="card builder">
+        <div class="fields">
+          <div class="field">
+            <label for="ce-project">projectID</label>
+            <input id="ce-project" type="text" inputmode="numeric" value="1201" autocomplete="off" autocapitalize="off" spellcheck="false">
+          </div>
+          <div class="field">
+            <label for="ce-equip">equipID</label>
+            <input id="ce-equip" type="text" inputmode="numeric" value="9001" autocomplete="off" autocapitalize="off" spellcheck="false">
+          </div>
+        </div>
+        <div class="qr-frame" id="ce-qr" role="img" aria-label="Mã QR checkEquips">Đang tạo mã QR…</div>
+        <p class="qr-url" id="ce-url"></p>
+        <div class="actions">
+          <button class="btn" type="button" id="ce-copy"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg><span>Sao chép</span></button>
+          <a class="btn btn-primary" id="ce-open" href="#">Mở link</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="group" aria-labelledby="g-account">
+      <h2 class="group-title" id="g-account">Account <span class="count">3</span></h2>
+      <ul class="card list">
+        <li class="row">
+          <a class="row-link" href="https://account.ichiplus.com/account/startup" target="_blank" rel="noopener">
+            <span class="row-text">
+              <span class="row-name">Startup (prod)</span>
+              <span class="row-path">account.ichiplus.com/account/startup</span>
+              
+            </span>
+            <svg class="ic ic-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+          </a>
+          <button class="icon-btn qr-btn" type="button" data-name="Startup (prod)" aria-label="Hiện mã QR: Startup (prod)"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="5" height="5" x="3" y="3" rx="1"/><rect width="5" height="5" x="16" y="3" rx="1"/><rect width="5" height="5" x="3" y="16" rx="1"/><path d="M21 16h-3a2 2 0 0 0-2 2v3"/><path d="M21 21v.01"/><path d="M12 7v3a2 2 0 0 1-2 2H7"/><path d="M3 12h.01"/><path d="M12 3h.01"/><path d="M12 16v.01"/><path d="M16 12h1"/><path d="M21 12v.01"/><path d="M12 21v-1"/></svg></button>
+        </li>
+        <li class="row">
+          <a class="row-link" href="https://account.ichi-plus-dev2.zyyx.jp/account/extWebLink" target="_blank" rel="noopener">
+            <span class="row-text">
+              <span class="row-name">extWebLink (dev2)</span>
+              <span class="row-path">account.ichi-plus-dev2.zyyx.jp/account/extWebLink</span>
+              
+            </span>
+            <svg class="ic ic-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+          </a>
+          <button class="icon-btn qr-btn" type="button" data-name="extWebLink (dev2)" aria-label="Hiện mã QR: extWebLink (dev2)"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="5" height="5" x="3" y="3" rx="1"/><rect width="5" height="5" x="16" y="3" rx="1"/><rect width="5" height="5" x="3" y="16" rx="1"/><path d="M21 16h-3a2 2 0 0 0-2 2v3"/><path d="M21 21v.01"/><path d="M12 7v3a2 2 0 0 1-2 2H7"/><path d="M3 12h.01"/><path d="M12 3h.01"/><path d="M12 16v.01"/><path d="M16 12h1"/><path d="M21 12v.01"/><path d="M12 21v-1"/></svg></button>
+        </li>
+        <li class="row">
+          <a class="row-link" href="https://account.ichi-plus-dev2.zyyx.jp/account/extAppLink" target="_blank" rel="noopener">
+            <span class="row-text">
+              <span class="row-name">extAppLink (dev2)</span>
+              <span class="row-path">account.ichi-plus-dev2.zyyx.jp/account/extAppLink</span>
+              
+            </span>
+            <svg class="ic ic-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+          </a>
+          <button class="icon-btn qr-btn" type="button" data-name="extAppLink (dev2)" aria-label="Hiện mã QR: extAppLink (dev2)"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="5" height="5" x="3" y="3" rx="1"/><rect width="5" height="5" x="16" y="3" rx="1"/><rect width="5" height="5" x="3" y="16" rx="1"/><path d="M21 16h-3a2 2 0 0 0-2 2v3"/><path d="M21 21v.01"/><path d="M12 7v3a2 2 0 0 1-2 2H7"/><path d="M3 12h.01"/><path d="M12 3h.01"/><path d="M12 16v.01"/><path d="M16 12h1"/><path d="M21 12v.01"/><path d="M12 21v-1"/></svg></button>
+        </li>
+      </ul>
+    </section>
+
+    <section class="group" aria-labelledby="g-qrreader-rental">
+      <h2 class="group-title" id="g-qrreader-rental">QRreader Rental <span class="count">2</span></h2>
+      <ul class="card list">
+        <li class="row">
+          <a class="row-link" href="server/QRreader?ProjectID=1201&amp;uiType=rental&amp;listType=RENTAL_SEARCH&amp;workerID=W01274&amp;x-success=https://rental.ichi-plus-dev2.zyyx.jp/rental/search/rental_list/1201?back130041">
+            <span class="row-text">
+              <span class="row-name">rental 1201</span>
+              <span class="row-path">/server/QRreader</span>
+              <span class="row-params">ProjectID=1201 · uiType=rental · listType=RENTAL_SEARCH · workerID=W01274</span>
+            </span>
+            <svg class="ic ic-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+          </a>
+          <button class="icon-btn qr-btn" type="button" data-name="rental 1201" aria-label="Hiện mã QR: rental 1201"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="5" height="5" x="3" y="3" rx="1"/><rect width="5" height="5" x="16" y="3" rx="1"/><rect width="5" height="5" x="3" y="16" rx="1"/><path d="M21 16h-3a2 2 0 0 0-2 2v3"/><path d="M21 21v.01"/><path d="M12 7v3a2 2 0 0 1-2 2H7"/><path d="M3 12h.01"/><path d="M12 3h.01"/><path d="M12 16v.01"/><path d="M16 12h1"/><path d="M21 12v.01"/><path d="M12 21v-1"/></svg></button>
+        </li>
+        <li class="row">
+          <a class="row-link" href="server/QRreader?ProjectID=1047&amp;uiType=rental&amp;listType=RENTAL_SEARCH&amp;workerID=W01274&amp;x-success=https://rental.ichi-plus-dev2.zyyx.jp/rental/search/rental_list/1047?back130041">
+            <span class="row-text">
+              <span class="row-name">rental 1047</span>
+              <span class="row-path">/server/QRreader</span>
+              <span class="row-params">ProjectID=1047 · uiType=rental · listType=RENTAL_SEARCH · workerID=W01274</span>
+            </span>
+            <svg class="ic ic-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+          </a>
+          <button class="icon-btn qr-btn" type="button" data-name="rental 1047" aria-label="Hiện mã QR: rental 1047"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="5" height="5" x="3" y="3" rx="1"/><rect width="5" height="5" x="16" y="3" rx="1"/><rect width="5" height="5" x="3" y="16" rx="1"/><path d="M21 16h-3a2 2 0 0 0-2 2v3"/><path d="M21 21v.01"/><path d="M12 7v3a2 2 0 0 1-2 2H7"/><path d="M3 12h.01"/><path d="M12 3h.01"/><path d="M12 16v.01"/><path d="M16 12h1"/><path d="M21 12v.01"/><path d="M12 21v-1"/></svg></button>
+        </li>
+      </ul>
+    </section>
+
+    <section class="group" aria-labelledby="g-base-qr-info">
+      <h2 class="group-title" id="g-base-qr-info">Base QR Info <span class="count">3</span></h2>
+      <ul class="card list">
+        <li class="row">
+          <a class="row-link" href="server/baseQRInfo?projectID=1048&amp;floorID=111&amp;xcoordi=222&amp;ycoordi=333">
+            <span class="row-text">
+              <span class="row-name">1048</span>
+              <span class="row-path">/server/baseQRInfo</span>
+              <span class="row-params">projectID=1048 · floorID=111 · xcoordi=222 · ycoordi=333</span>
+            </span>
+            <svg class="ic ic-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+          </a>
+          <button class="icon-btn qr-btn" type="button" data-name="1048" aria-label="Hiện mã QR: 1048"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="5" height="5" x="3" y="3" rx="1"/><rect width="5" height="5" x="16" y="3" rx="1"/><rect width="5" height="5" x="3" y="16" rx="1"/><path d="M21 16h-3a2 2 0 0 0-2 2v3"/><path d="M21 21v.01"/><path d="M12 7v3a2 2 0 0 1-2 2H7"/><path d="M3 12h.01"/><path d="M12 3h.01"/><path d="M12 16v.01"/><path d="M16 12h1"/><path d="M21 12v.01"/><path d="M12 21v-1"/></svg></button>
+        </li>
+        <li class="row">
+          <a class="row-link" href="server/baseQRInfo?projectID=1047&amp;floorID=111&amp;xcoordi=222&amp;ycoordi=333">
+            <span class="row-text">
+              <span class="row-name">1047</span>
+              <span class="row-path">/server/baseQRInfo</span>
+              <span class="row-params">projectID=1047 · floorID=111 · xcoordi=222 · ycoordi=333</span>
+            </span>
+            <svg class="ic ic-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+          </a>
+          <button class="icon-btn qr-btn" type="button" data-name="1047" aria-label="Hiện mã QR: 1047"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="5" height="5" x="3" y="3" rx="1"/><rect width="5" height="5" x="16" y="3" rx="1"/><rect width="5" height="5" x="3" y="16" rx="1"/><path d="M21 16h-3a2 2 0 0 0-2 2v3"/><path d="M21 21v.01"/><path d="M12 7v3a2 2 0 0 1-2 2H7"/><path d="M3 12h.01"/><path d="M12 3h.01"/><path d="M12 16v.01"/><path d="M16 12h1"/><path d="M21 12v.01"/><path d="M12 21v-1"/></svg></button>
+        </li>
+        <li class="row">
+          <a class="row-link" href="server/baseQRInfo?projectID=1201&amp;floorID=111&amp;xcoordi=222&amp;ycoordi=333">
+            <span class="row-text">
+              <span class="row-name">1201 Matsusaka</span>
+              <span class="row-path">/server/baseQRInfo</span>
+              <span class="row-params">projectID=1201 · floorID=111 · xcoordi=222 · ycoordi=333</span>
+            </span>
+            <svg class="ic ic-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+          </a>
+          <button class="icon-btn qr-btn" type="button" data-name="1201 Matsusaka" aria-label="Hiện mã QR: 1201 Matsusaka"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="5" height="5" x="3" y="3" rx="1"/><rect width="5" height="5" x="16" y="3" rx="1"/><rect width="5" height="5" x="3" y="16" rx="1"/><path d="M21 16h-3a2 2 0 0 0-2 2v3"/><path d="M21 21v.01"/><path d="M12 7v3a2 2 0 0 1-2 2H7"/><path d="M3 12h.01"/><path d="M12 3h.01"/><path d="M12 16v.01"/><path d="M16 12h1"/><path d="M21 12v.01"/><path d="M12 21v-1"/></svg></button>
+        </li>
+      </ul>
+    </section>
+
+    <section class="group" aria-labelledby="g-base-rental-qr-info">
+      <h2 class="group-title" id="g-base-rental-qr-info">Base Rental QR Info <span class="count">4</span></h2>
+      <ul class="card list">
+        <li class="row">
+          <a class="row-link" href="server/baseRentalQRInfo?projectID=1048&amp;type=inventory&amp;x-success=https://ichi-plus-dev2.zyyx.jp/rental/search/rental_list/1047?back163409&amp;workerID=W03729">
+            <span class="row-text">
+              <span class="row-name">inventory 1048 W03729</span>
+              <span class="row-path">/server/baseRentalQRInfo</span>
+              <span class="row-params">projectID=1048 · type=inventory · workerID=W03729</span>
+            </span>
+            <svg class="ic ic-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+          </a>
+          <button class="icon-btn qr-btn" type="button" data-name="inventory 1048 W03729" aria-label="Hiện mã QR: inventory 1048 W03729"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="5" height="5" x="3" y="3" rx="1"/><rect width="5" height="5" x="16" y="3" rx="1"/><rect width="5" height="5" x="3" y="16" rx="1"/><path d="M21 16h-3a2 2 0 0 0-2 2v3"/><path d="M21 21v.01"/><path d="M12 7v3a2 2 0 0 1-2 2H7"/><path d="M3 12h.01"/><path d="M12 3h.01"/><path d="M12 16v.01"/><path d="M16 12h1"/><path d="M21 12v.01"/><path d="M12 21v-1"/></svg></button>
+        </li>
+        <li class="row">
+          <a class="row-link" href="server/baseRentalQRInfo?projectID=1047&amp;type=inventory&amp;x-success=https://ichi-plus-dev2.zyyx.jp/rental/search/rental_list/1047?back163409&amp;workerID=W03729">
+            <span class="row-text">
+              <span class="row-name">inventory 1047 W03729</span>
+              <span class="row-path">/server/baseRentalQRInfo</span>
+              <span class="row-params">projectID=1047 · type=inventory · workerID=W03729</span>
+            </span>
+            <svg class="ic ic-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+          </a>
+          <button class="icon-btn qr-btn" type="button" data-name="inventory 1047 W03729" aria-label="Hiện mã QR: inventory 1047 W03729"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="5" height="5" x="3" y="3" rx="1"/><rect width="5" height="5" x="16" y="3" rx="1"/><rect width="5" height="5" x="3" y="16" rx="1"/><path d="M21 16h-3a2 2 0 0 0-2 2v3"/><path d="M21 21v.01"/><path d="M12 7v3a2 2 0 0 1-2 2H7"/><path d="M3 12h.01"/><path d="M12 3h.01"/><path d="M12 16v.01"/><path d="M16 12h1"/><path d="M21 12v.01"/><path d="M12 21v-1"/></svg></button>
+        </li>
+        <li class="row">
+          <a class="row-link" href="server/baseRentalQRInfo?projectID=1048&amp;type=search&amp;x-success=https://ichi-plus-dev2.zyyx.jp/rental/search/rental_list/1047?back163409&amp;workerID=W03729">
+            <span class="row-text">
+              <span class="row-name">search 1048 W03729</span>
+              <span class="row-path">/server/baseRentalQRInfo</span>
+              <span class="row-params">projectID=1048 · type=search · workerID=W03729</span>
+            </span>
+            <svg class="ic ic-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+          </a>
+          <button class="icon-btn qr-btn" type="button" data-name="search 1048 W03729" aria-label="Hiện mã QR: search 1048 W03729"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="5" height="5" x="3" y="3" rx="1"/><rect width="5" height="5" x="16" y="3" rx="1"/><rect width="5" height="5" x="3" y="16" rx="1"/><path d="M21 16h-3a2 2 0 0 0-2 2v3"/><path d="M21 21v.01"/><path d="M12 7v3a2 2 0 0 1-2 2H7"/><path d="M3 12h.01"/><path d="M12 3h.01"/><path d="M12 16v.01"/><path d="M16 12h1"/><path d="M21 12v.01"/><path d="M12 21v-1"/></svg></button>
+        </li>
+        <li class="row">
+          <a class="row-link" href="server/baseRentalQRInfo?projectID=1047&amp;type=search&amp;x-success=https://ichi-plus-dev2.zyyx.jp/rental/search/rental_list/1047?back163409&amp;workerID=W03729">
+            <span class="row-text">
+              <span class="row-name">search 1047 W03729</span>
+              <span class="row-path">/server/baseRentalQRInfo</span>
+              <span class="row-params">projectID=1047 · type=search · workerID=W03729</span>
+            </span>
+            <svg class="ic ic-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+          </a>
+          <button class="icon-btn qr-btn" type="button" data-name="search 1047 W03729" aria-label="Hiện mã QR: search 1047 W03729"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="5" height="5" x="3" y="3" rx="1"/><rect width="5" height="5" x="16" y="3" rx="1"/><rect width="5" height="5" x="3" y="16" rx="1"/><path d="M21 16h-3a2 2 0 0 0-2 2v3"/><path d="M21 21v.01"/><path d="M12 7v3a2 2 0 0 1-2 2H7"/><path d="M3 12h.01"/><path d="M12 3h.01"/><path d="M12 16v.01"/><path d="M16 12h1"/><path d="M21 12v.01"/><path d="M12 21v-1"/></svg></button>
+        </li>
+      </ul>
+    </section>
+
+    <section class="group" aria-labelledby="g-khác">
+      <h2 class="group-title" id="g-khác">Khác <span class="count">4</span></h2>
+      <ul class="card list">
+        <li class="row">
+          <a class="row-link" href="server/password?token=TEST_TOKEN_123">
+            <span class="row-text">
+              <span class="row-name">Change Password</span>
+              <span class="row-path">/server/password</span>
+              <span class="row-params">token=TEST_TOKEN_123</span>
+            </span>
+            <svg class="ic ic-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+          </a>
+          <button class="icon-btn qr-btn" type="button" data-name="Change Password" aria-label="Hiện mã QR: Change Password"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="5" height="5" x="3" y="3" rx="1"/><rect width="5" height="5" x="16" y="3" rx="1"/><rect width="5" height="5" x="3" y="16" rx="1"/><path d="M21 16h-3a2 2 0 0 0-2 2v3"/><path d="M21 21v.01"/><path d="M12 7v3a2 2 0 0 1-2 2H7"/><path d="M3 12h.01"/><path d="M12 3h.01"/><path d="M12 16v.01"/><path d="M16 12h1"/><path d="M21 12v.01"/><path d="M12 21v-1"/></svg></button>
+        </li>
+        <li class="row">
+          <a class="row-link" href="server/reservations?projectID=1047&amp;belongID=BELONG_01&amp;equipID=EQUIP_01&amp;reservedDate=2026-03-01&amp;ampm=am&amp;unlock=0">
+            <span class="row-text">
+              <span class="row-name">Reservations</span>
+              <span class="row-path">/server/reservations</span>
+              <span class="row-params">projectID=1047 · belongID=BELONG_01 · equipID=EQUIP_01 · reservedDate=2026-03-01 · ampm=am · unlock=0</span>
+            </span>
+            <svg class="ic ic-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+          </a>
+          <button class="icon-btn qr-btn" type="button" data-name="Reservations" aria-label="Hiện mã QR: Reservations"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="5" height="5" x="3" y="3" rx="1"/><rect width="5" height="5" x="16" y="3" rx="1"/><rect width="5" height="5" x="3" y="16" rx="1"/><path d="M21 16h-3a2 2 0 0 0-2 2v3"/><path d="M21 21v.01"/><path d="M12 7v3a2 2 0 0 1-2 2H7"/><path d="M3 12h.01"/><path d="M12 3h.01"/><path d="M12 16v.01"/><path d="M16 12h1"/><path d="M21 12v.01"/><path d="M12 21v-1"/></svg></button>
+        </li>
+        <li class="row">
+          <a class="row-link" href="server/RFIDreader?ProjectID=1047&amp;x-success=ichiplus-base://callback">
+            <span class="row-text">
+              <span class="row-name">RFID Reader</span>
+              <span class="row-path">/server/RFIDreader</span>
+              <span class="row-params">ProjectID=1047</span>
+            </span>
+            <svg class="ic ic-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+          </a>
+          <button class="icon-btn qr-btn" type="button" data-name="RFID Reader" aria-label="Hiện mã QR: RFID Reader"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="5" height="5" x="3" y="3" rx="1"/><rect width="5" height="5" x="16" y="3" rx="1"/><rect width="5" height="5" x="3" y="16" rx="1"/><path d="M21 16h-3a2 2 0 0 0-2 2v3"/><path d="M21 21v.01"/><path d="M12 7v3a2 2 0 0 1-2 2H7"/><path d="M3 12h.01"/><path d="M12 3h.01"/><path d="M12 16v.01"/><path d="M16 12h1"/><path d="M21 12v.01"/><path d="M12 21v-1"/></svg></button>
+        </li>
+        <li class="row">
+          <a class="row-link" href="server/Beacon?ProjectID=1047&amp;x-success=ichiplus-base://callback">
+            <span class="row-text">
+              <span class="row-name">Beacon</span>
+              <span class="row-path">/server/Beacon</span>
+              <span class="row-params">ProjectID=1047</span>
+            </span>
+            <svg class="ic ic-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+          </a>
+          <button class="icon-btn qr-btn" type="button" data-name="Beacon" aria-label="Hiện mã QR: Beacon"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="5" height="5" x="3" y="3" rx="1"/><rect width="5" height="5" x="16" y="3" rx="1"/><rect width="5" height="5" x="3" y="16" rx="1"/><path d="M21 16h-3a2 2 0 0 0-2 2v3"/><path d="M21 21v.01"/><path d="M12 7v3a2 2 0 0 1-2 2H7"/><path d="M3 12h.01"/><path d="M12 3h.01"/><path d="M12 16v.01"/><path d="M16 12h1"/><path d="M21 12v.01"/><path d="M12 21v-1"/></svg></button>
+        </li>
+      </ul>
+    </section>
+
+    <p class="empty" id="empty">Không có link nào khớp.</p>
+  </main>
+
+  <p class="foot">Quét mã QR bằng Camera · Universal Links</p>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<dialog class="sheet" id="sheet" aria-labelledby="sheet-title">
+  <div class="sheet-head">
+    <h2 id="sheet-title">QR</h2>
+    <button class="icon-btn" type="button" id="sheet-close" aria-label="Đóng"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
+  </div>
+  <div class="sheet-body">
+    <div class="qr-frame" id="sheet-qr" role="img" aria-label="Mã QR"></div>
+    <p class="qr-url" id="sheet-url"></p>
+    <div class="actions">
+      <button class="btn" type="button" id="sheet-copy"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg><span>Sao chép</span></button>
+      <a class="btn btn-primary" id="sheet-open" href="#">Mở link</a>
+    </div>
+  </div>
+</dialog>
+
+<p class="live" id="live" aria-live="polite"></p>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js" integrity="sha384-mZT2gIty7ZDdOGkxfP6joZcYdMW1Jvj9dRlfpTmaJAKKXTqzygtB22k7FLe+KZC1" crossorigin="anonymous"></script>
 <script>
 (function () {
-  var BASE = 'https://assahaihh.netlify.app/kosha_yoyaku/checkEquips/';
-  var project = document.getElementById('ce-project');
-  var equip = document.getElementById('ce-equip');
-  var box = document.getElementById('ce-qr');
-  var name = document.getElementById('ce-name');
-  var urlEl = document.getElementById('ce-url');
+  var DEFAULT_ORIGIN = 'https://assahaihh.netlify.app';
+  var isLocal = !/^https?:$/.test(location.protocol) || /^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname);
+  var ORIGIN = isLocal ? DEFAULT_ORIGIN : location.origin;
+  document.getElementById('origin-label').textContent = ORIGIN.replace(/^https?:\/\//, '');
 
-  function svgFor(text) {
+  function $(id) { return document.getElementById(id); }
+  function absolute(href) { return new URL(href, ORIGIN + '/').href; }
+
+  function qrSvg(text) {
     var qr = qrcode(0, 'M');
     qr.addData(text);
     qr.make();
-    var n = qr.getModuleCount(), m = 2, d = '';
+    var n = qr.getModuleCount(), d = '';
     for (var r = 0; r < n; r++)
       for (var c = 0; c < n; c++)
-        if (qr.isDark(r, c)) d += 'M' + (c + m) + ' ' + (r + m) + 'h1v1h-1z';
-    var size = n + m * 2;
-    return '<svg class="qr" shape-rendering="crispEdges" role="img" aria-label="QR checkEquips" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + size + ' ' + size + '"><path fill="#000" d="' + d + '"/></svg>';
+        if (qr.isDark(r, c)) d += 'M' + c + ' ' + r + 'h1v1h-1z';
+    return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + n + ' ' + n + '" shape-rendering="crispEdges" aria-hidden="true"><path fill="#000" d="' + d + '"/></svg>';
   }
 
-  function update() {
+  function renderQr(el, text) {
+    if (typeof qrcode !== 'function') { el.textContent = 'Không tải được thư viện QR'; return; }
+    el.innerHTML = qrSvg(text);
+  }
+
+  function announce(msg) {
+    var live = $('live');
+    live.textContent = '';
+    setTimeout(function () { live.textContent = msg; }, 30);
+  }
+
+  function copy(text, btn) {
+    var label = btn.querySelector('span');
+    var done = function () {
+      label.textContent = 'Đã sao chép';
+      announce('Đã sao chép URL');
+      setTimeout(function () { label.textContent = 'Sao chép'; }, 1500);
+    };
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text).then(done, function () { window.prompt('Sao chép URL:', text); });
+    } else {
+      window.prompt('Sao chép URL:', text);
+    }
+  }
+
+  /* AASA check */
+  (function () {
+    var box = $('aasa'), detail = $('aasa-detail');
+    fetch('/.well-known/apple-app-site-association', { cache: 'no-store' })
+      .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+      .then(function (j) {
+        var details = (j.applinks && j.applinks.details) || [];
+        var paths = details.reduce(function (s, d) { return s + ((d.paths || d.components || []).length); }, 0);
+        box.dataset.state = 'ok';
+        detail.textContent = 'OK · ' + details.length + ' app · ' + paths + ' path';
+      })
+      .catch(function (e) {
+        box.dataset.state = 'error';
+        detail.textContent = 'Không đọc được (' + e.message + ')';
+      });
+  })();
+
+  /* QR dialog */
+  var sheet = $('sheet'), sheetUrl = '';
+  document.querySelectorAll('.qr-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var link = btn.parentNode.querySelector('.row-link');
+      sheetUrl = absolute(link.getAttribute('href'));
+      $('sheet-title').textContent = btn.dataset.name;
+      $('sheet-url').textContent = sheetUrl;
+      $('sheet-open').href = sheetUrl;
+      renderQr($('sheet-qr'), sheetUrl);
+      if (typeof sheet.showModal === 'function') sheet.showModal();
+      else window.open(sheetUrl, '_blank');
+    });
+  });
+  $('sheet-close').addEventListener('click', function () { sheet.close(); });
+  sheet.addEventListener('click', function (e) { if (e.target === sheet) sheet.close(); });
+  $('sheet-copy').addEventListener('click', function () { copy(sheetUrl, this); });
+
+  /* checkEquips builder */
+  var project = $('ce-project'), equip = $('ce-equip'), ceUrl = '';
+  function updateBuilder() {
     var p = project.value.trim(), e = equip.value.trim();
-    if (!p || !e) {
-      box.innerHTML = '<div class="qr"></div>';
-      name.textContent = 'Nhập projectID và equipID';
-      urlEl.textContent = '';
+    var ok = p && e;
+    $('ce-open').setAttribute('aria-disabled', ok ? 'false' : 'true');
+    $('ce-copy').disabled = !ok;
+    if (!ok) {
+      ceUrl = '';
+      $('ce-qr').textContent = 'Nhập projectID và equipID';
+      $('ce-url').textContent = '';
+      $('ce-open').href = '#';
       return;
     }
-    var url = BASE + encodeURIComponent(p) + '/' + encodeURIComponent(e);
-    name.textContent = 'Check Equips (' + p + ' / ' + e + ')';
-    urlEl.textContent = url;
-    if (typeof qrcode !== 'function') {
-      box.innerHTML = '<div class="qr"></div>';
-      name.textContent = 'Không tải được thư viện QR';
-      return;
-    }
-    box.innerHTML = svgFor(url);
+    ceUrl = ORIGIN + '/kosha_yoyaku/checkEquips/' + encodeURIComponent(p) + '/' + encodeURIComponent(e);
+    $('ce-url').textContent = ceUrl;
+    $('ce-open').href = ceUrl;
+    renderQr($('ce-qr'), ceUrl);
   }
+  project.addEventListener('input', updateBuilder);
+  equip.addEventListener('input', updateBuilder);
+  $('ce-copy').addEventListener('click', function () { if (ceUrl) copy(ceUrl, this); });
+  updateBuilder();
 
-  project.addEventListener('input', update);
-  equip.addEventListener('input', update);
+  /* Filter */
+  var filter = $('filter');
+  filter.addEventListener('input', function () {
+    var q = filter.value.trim().toLowerCase(), any = false;
+    document.querySelectorAll('.group').forEach(function (g) {
+      if (g.hasAttribute('data-static')) {
+        var match = !q || g.querySelector('.group-title').textContent.toLowerCase().indexOf(q) !== -1;
+        g.hidden = !match;
+        if (match && q) any = true;
+        return;
+      }
+      var visible = 0;
+      g.querySelectorAll('.row').forEach(function (row) {
+        var hay = (row.textContent + ' ' + row.querySelector('.row-link').getAttribute('href')).toLowerCase();
+        var show = !q || hay.indexOf(q) !== -1;
+        row.hidden = !show;
+        if (show) visible++;
+      });
+      g.hidden = visible === 0;
+      if (visible) any = true;
+    });
+    $('empty').classList.toggle('show', !!q && !any);
+  });
 })();
 </script>
-
 </body>
 </html>
