@@ -13,7 +13,8 @@
           "/server/extAppLink*",
           "/server/RFIDreader*",
           "/server/Beacon*",
-          "/server/reservations*"
+          "/server/reservations*",
+          "/kosha_yoyaku/checkEquips*"
         ]
       },
       {
