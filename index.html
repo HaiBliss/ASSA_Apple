@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -173,13 +174,29 @@
     .builder { padding: var(--space-4); }
     .fields { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); margin-bottom: var(--space-4); }
     .field label { display: block; font-size: 13px; font-weight: 600; color: var(--muted); margin-bottom: var(--space-1); }
-    .field input {
+    .field-wide { grid-column: 1 / -1; }
+    .field input, .field select {
       width: 100%; height: 48px; padding: 0 var(--space-3);
       font-family: var(--font-mono); font-size: 16px; color: var(--fg);
       background: var(--bg); border: 1px solid var(--input-border); border-radius: var(--radius-sm);
       -webkit-appearance: none; appearance: none;
     }
-    .field input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+    .field select {
+      padding-right: 36px; cursor: pointer;
+      background-image: linear-gradient(45deg, transparent 50%, var(--muted) 50%), linear-gradient(135deg, var(--muted) 50%, transparent 50%);
+      background-position: calc(100% - 19px) 50%, calc(100% - 14px) 50%;
+      background-size: 5px 5px; background-repeat: no-repeat;
+    }
+    .field input:focus, .field select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+    .presets { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-bottom: var(--space-3); }
+    .chip {
+      height: 40px; min-width: 44px; padding: 0 var(--space-3);
+      font-family: var(--font-mono); font-size: 14px; color: var(--fg);
+      background: transparent; border: 1px solid var(--input-border); border-radius: 999px;
+      cursor: pointer;
+      transition: background-color var(--dur) var(--ease), border-color var(--dur) var(--ease);
+    }
+    .chip[aria-pressed="true"] { background: var(--accent-soft); border-color: var(--accent); color: var(--accent-text); }
 
     /* QR */
     .qr-frame {
@@ -196,6 +213,9 @@
     }
     .qr-caption { text-align: center; font-weight: 600; margin: 0 0 var(--space-1); }
     .actions { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); }
+    .actions-3 .btn-primary { grid-column: 1 / -1; }
+    .qr-url.hint { color: var(--muted); }
+    .builder[data-path] .qr-url { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .btn {
       display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2);
       height: 48px; padding: 0 var(--space-4);
@@ -328,121 +348,114 @@
       </ul>
     </section>
 
-    <section class="group" aria-labelledby="g-qrreader-rental">
-      <h2 class="group-title" id="g-qrreader-rental">QRreader Rental <span class="count">2</span></h2>
-      <ul class="card list">
-        <li class="row">
-          <a class="row-link" href="server/QRreader?ProjectID=1201&amp;uiType=rental&amp;listType=RENTAL_SEARCH&amp;workerID=W01274&amp;x-success=https://rental.ichi-plus-dev2.zyyx.jp/rental/search/rental_list/1201?back130041">
-            <span class="row-text">
-              <span class="row-name">rental 1201</span>
-              <span class="row-path">/server/QRreader</span>
-              <span class="row-params">ProjectID=1201 · uiType=rental · listType=RENTAL_SEARCH · workerID=W01274</span>
-            </span>
-            <svg class="ic ic-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
-          </a>
-          <button class="icon-btn qr-btn" type="button" data-name="rental 1201" aria-label="Hiện mã QR: rental 1201"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="5" height="5" x="3" y="3" rx="1"/><rect width="5" height="5" x="16" y="3" rx="1"/><rect width="5" height="5" x="3" y="16" rx="1"/><path d="M21 16h-3a2 2 0 0 0-2 2v3"/><path d="M21 21v.01"/><path d="M12 7v3a2 2 0 0 1-2 2H7"/><path d="M3 12h.01"/><path d="M12 3h.01"/><path d="M12 16v.01"/><path d="M16 12h1"/><path d="M21 12v.01"/><path d="M12 21v-1"/></svg></button>
-        </li>
-        <li class="row">
-          <a class="row-link" href="server/QRreader?ProjectID=1047&amp;uiType=rental&amp;listType=RENTAL_SEARCH&amp;workerID=W01274&amp;x-success=https://rental.ichi-plus-dev2.zyyx.jp/rental/search/rental_list/1047?back130041">
-            <span class="row-text">
-              <span class="row-name">rental 1047</span>
-              <span class="row-path">/server/QRreader</span>
-              <span class="row-params">ProjectID=1047 · uiType=rental · listType=RENTAL_SEARCH · workerID=W01274</span>
-            </span>
-            <svg class="ic ic-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
-          </a>
-          <button class="icon-btn qr-btn" type="button" data-name="rental 1047" aria-label="Hiện mã QR: rental 1047"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="5" height="5" x="3" y="3" rx="1"/><rect width="5" height="5" x="16" y="3" rx="1"/><rect width="5" height="5" x="3" y="16" rx="1"/><path d="M21 16h-3a2 2 0 0 0-2 2v3"/><path d="M21 21v.01"/><path d="M12 7v3a2 2 0 0 1-2 2H7"/><path d="M3 12h.01"/><path d="M12 3h.01"/><path d="M12 16v.01"/><path d="M16 12h1"/><path d="M21 12v.01"/><path d="M12 21v-1"/></svg></button>
-        </li>
-      </ul>
+    <section class="group" aria-labelledby="g-qrreader-rental" data-static>
+      <h2 class="group-title" id="g-qrreader-rental">QRreader Rental</h2>
+      <div class="card builder" data-path="server/QRreader" data-project="ProjectID" data-params="ProjectID uiType listType workerID x-success">
+        <div class="presets" role="group" aria-label="Chọn nhanh ProjectID">
+          <button class="chip" type="button" data-value="1201">1201</button>
+          <button class="chip" type="button" data-value="1047">1047</button>
+        </div>
+        <div class="fields">
+          <div class="field">
+            <label for="qr-project">ProjectID</label>
+            <input id="qr-project" data-param="ProjectID" type="text" inputmode="numeric" value="1201" autocomplete="off" autocapitalize="off" spellcheck="false">
+          </div>
+          <div class="field">
+            <label for="qr-ui">uiType</label>
+            <input id="qr-ui" data-param="uiType" type="text" value="rental" autocomplete="off" autocapitalize="off" spellcheck="false">
+          </div>
+          <div class="field">
+            <label for="qr-list">listType</label>
+            <input id="qr-list" data-param="listType" type="text" value="RENTAL_SEARCH" autocomplete="off" autocapitalize="off" spellcheck="false">
+          </div>
+          <div class="field">
+            <label for="qr-worker">workerID</label>
+            <input id="qr-worker" data-param="workerID" type="text" value="W01274" autocomplete="off" autocapitalize="off" spellcheck="false">
+          </div>
+          <div class="field field-wide">
+            <label for="qr-success">x-success</label>
+            <input id="qr-success" data-param="x-success" type="url" value="https://rental.ichi-plus-dev2.zyyx.jp/rental/search/rental_list/1201?back130041" autocomplete="off" autocapitalize="off" spellcheck="false">
+          </div>
+        </div>
+        <p class="qr-url"></p>
+        <div class="actions actions-3">
+          <button class="btn btn-copy" type="button"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg><span>Sao chép</span></button>
+          <button class="btn btn-qr" type="button"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="5" height="5" x="3" y="3" rx="1"/><rect width="5" height="5" x="16" y="3" rx="1"/><rect width="5" height="5" x="3" y="16" rx="1"/><path d="M21 16h-3a2 2 0 0 0-2 2v3"/><path d="M21 21v.01"/><path d="M12 7v3a2 2 0 0 1-2 2H7"/><path d="M3 12h.01"/><path d="M12 3h.01"/><path d="M12 16v.01"/><path d="M16 12h1"/><path d="M21 12v.01"/><path d="M12 21v-1"/></svg><span>Hiện QR</span></button>
+          <a class="btn btn-primary" href="#">Mở link</a>
+        </div>
+      </div>
     </section>
 
-    <section class="group" aria-labelledby="g-base-qr-info">
-      <h2 class="group-title" id="g-base-qr-info">Base QR Info <span class="count">3</span></h2>
-      <ul class="card list">
-        <li class="row">
-          <a class="row-link" href="server/baseQRInfo?projectID=1048&amp;floorID=111&amp;xcoordi=222&amp;ycoordi=333">
-            <span class="row-text">
-              <span class="row-name">1048</span>
-              <span class="row-path">/server/baseQRInfo</span>
-              <span class="row-params">projectID=1048 · floorID=111 · xcoordi=222 · ycoordi=333</span>
-            </span>
-            <svg class="ic ic-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
-          </a>
-          <button class="icon-btn qr-btn" type="button" data-name="1048" aria-label="Hiện mã QR: 1048"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="5" height="5" x="3" y="3" rx="1"/><rect width="5" height="5" x="16" y="3" rx="1"/><rect width="5" height="5" x="3" y="16" rx="1"/><path d="M21 16h-3a2 2 0 0 0-2 2v3"/><path d="M21 21v.01"/><path d="M12 7v3a2 2 0 0 1-2 2H7"/><path d="M3 12h.01"/><path d="M12 3h.01"/><path d="M12 16v.01"/><path d="M16 12h1"/><path d="M21 12v.01"/><path d="M12 21v-1"/></svg></button>
-        </li>
-        <li class="row">
-          <a class="row-link" href="server/baseQRInfo?projectID=1047&amp;floorID=111&amp;xcoordi=222&amp;ycoordi=333">
-            <span class="row-text">
-              <span class="row-name">1047</span>
-              <span class="row-path">/server/baseQRInfo</span>
-              <span class="row-params">projectID=1047 · floorID=111 · xcoordi=222 · ycoordi=333</span>
-            </span>
-            <svg class="ic ic-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
-          </a>
-          <button class="icon-btn qr-btn" type="button" data-name="1047" aria-label="Hiện mã QR: 1047"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="5" height="5" x="3" y="3" rx="1"/><rect width="5" height="5" x="16" y="3" rx="1"/><rect width="5" height="5" x="3" y="16" rx="1"/><path d="M21 16h-3a2 2 0 0 0-2 2v3"/><path d="M21 21v.01"/><path d="M12 7v3a2 2 0 0 1-2 2H7"/><path d="M3 12h.01"/><path d="M12 3h.01"/><path d="M12 16v.01"/><path d="M16 12h1"/><path d="M21 12v.01"/><path d="M12 21v-1"/></svg></button>
-        </li>
-        <li class="row">
-          <a class="row-link" href="server/baseQRInfo?projectID=1201&amp;floorID=111&amp;xcoordi=222&amp;ycoordi=333">
-            <span class="row-text">
-              <span class="row-name">1201 Matsusaka</span>
-              <span class="row-path">/server/baseQRInfo</span>
-              <span class="row-params">projectID=1201 · floorID=111 · xcoordi=222 · ycoordi=333</span>
-            </span>
-            <svg class="ic ic-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
-          </a>
-          <button class="icon-btn qr-btn" type="button" data-name="1201 Matsusaka" aria-label="Hiện mã QR: 1201 Matsusaka"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="5" height="5" x="3" y="3" rx="1"/><rect width="5" height="5" x="16" y="3" rx="1"/><rect width="5" height="5" x="3" y="16" rx="1"/><path d="M21 16h-3a2 2 0 0 0-2 2v3"/><path d="M21 21v.01"/><path d="M12 7v3a2 2 0 0 1-2 2H7"/><path d="M3 12h.01"/><path d="M12 3h.01"/><path d="M12 16v.01"/><path d="M16 12h1"/><path d="M21 12v.01"/><path d="M12 21v-1"/></svg></button>
-        </li>
-      </ul>
+    <section class="group" aria-labelledby="g-base-qr-info" data-static>
+      <h2 class="group-title" id="g-base-qr-info">Base QR Info</h2>
+      <div class="card builder" data-path="server/baseQRInfo" data-project="projectID" data-params="projectID floorID xcoordi ycoordi">
+        <div class="presets" role="group" aria-label="Chọn nhanh projectID">
+          <button class="chip" type="button" data-value="1201">1201 Matsusaka</button>
+          <button class="chip" type="button" data-value="1047">1047</button>
+          <button class="chip" type="button" data-value="1048">1048</button>
+        </div>
+        <div class="fields">
+          <div class="field">
+            <label for="bq-project">projectID</label>
+            <input id="bq-project" data-param="projectID" type="text" inputmode="numeric" value="1201" autocomplete="off" autocapitalize="off" spellcheck="false">
+          </div>
+          <div class="field">
+            <label for="bq-floor">floorID</label>
+            <input id="bq-floor" data-param="floorID" type="text" inputmode="numeric" value="111" autocomplete="off" autocapitalize="off" spellcheck="false">
+          </div>
+          <div class="field">
+            <label for="bq-x">xcoordi</label>
+            <input id="bq-x" data-param="xcoordi" type="text" inputmode="decimal" value="222" autocomplete="off" autocapitalize="off" spellcheck="false">
+          </div>
+          <div class="field">
+            <label for="bq-y">ycoordi</label>
+            <input id="bq-y" data-param="ycoordi" type="text" inputmode="decimal" value="333" autocomplete="off" autocapitalize="off" spellcheck="false">
+          </div>
+        </div>
+        <p class="qr-url"></p>
+        <div class="actions actions-3">
+          <button class="btn btn-copy" type="button"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg><span>Sao chép</span></button>
+          <button class="btn btn-qr" type="button"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="5" height="5" x="3" y="3" rx="1"/><rect width="5" height="5" x="16" y="3" rx="1"/><rect width="5" height="5" x="3" y="16" rx="1"/><path d="M21 16h-3a2 2 0 0 0-2 2v3"/><path d="M21 21v.01"/><path d="M12 7v3a2 2 0 0 1-2 2H7"/><path d="M3 12h.01"/><path d="M12 3h.01"/><path d="M12 16v.01"/><path d="M16 12h1"/><path d="M21 12v.01"/><path d="M12 21v-1"/></svg><span>Hiện QR</span></button>
+          <a class="btn btn-primary" href="#">Mở link</a>
+        </div>
+      </div>
     </section>
 
-    <section class="group" aria-labelledby="g-base-rental-qr-info">
-      <h2 class="group-title" id="g-base-rental-qr-info">Base Rental QR Info <span class="count">4</span></h2>
-      <ul class="card list">
-        <li class="row">
-          <a class="row-link" href="server/baseRentalQRInfo?projectID=1048&amp;type=inventory&amp;x-success=https://ichi-plus-dev2.zyyx.jp/rental/search/rental_list/1047?back163409&amp;workerID=W03729">
-            <span class="row-text">
-              <span class="row-name">inventory 1048 W03729</span>
-              <span class="row-path">/server/baseRentalQRInfo</span>
-              <span class="row-params">projectID=1048 · type=inventory · workerID=W03729</span>
-            </span>
-            <svg class="ic ic-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
-          </a>
-          <button class="icon-btn qr-btn" type="button" data-name="inventory 1048 W03729" aria-label="Hiện mã QR: inventory 1048 W03729"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="5" height="5" x="3" y="3" rx="1"/><rect width="5" height="5" x="16" y="3" rx="1"/><rect width="5" height="5" x="3" y="16" rx="1"/><path d="M21 16h-3a2 2 0 0 0-2 2v3"/><path d="M21 21v.01"/><path d="M12 7v3a2 2 0 0 1-2 2H7"/><path d="M3 12h.01"/><path d="M12 3h.01"/><path d="M12 16v.01"/><path d="M16 12h1"/><path d="M21 12v.01"/><path d="M12 21v-1"/></svg></button>
-        </li>
-        <li class="row">
-          <a class="row-link" href="server/baseRentalQRInfo?projectID=1047&amp;type=inventory&amp;x-success=https://ichi-plus-dev2.zyyx.jp/rental/search/rental_list/1047?back163409&amp;workerID=W03729">
-            <span class="row-text">
-              <span class="row-name">inventory 1047 W03729</span>
-              <span class="row-path">/server/baseRentalQRInfo</span>
-              <span class="row-params">projectID=1047 · type=inventory · workerID=W03729</span>
-            </span>
-            <svg class="ic ic-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
-          </a>
-          <button class="icon-btn qr-btn" type="button" data-name="inventory 1047 W03729" aria-label="Hiện mã QR: inventory 1047 W03729"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="5" height="5" x="3" y="3" rx="1"/><rect width="5" height="5" x="16" y="3" rx="1"/><rect width="5" height="5" x="3" y="16" rx="1"/><path d="M21 16h-3a2 2 0 0 0-2 2v3"/><path d="M21 21v.01"/><path d="M12 7v3a2 2 0 0 1-2 2H7"/><path d="M3 12h.01"/><path d="M12 3h.01"/><path d="M12 16v.01"/><path d="M16 12h1"/><path d="M21 12v.01"/><path d="M12 21v-1"/></svg></button>
-        </li>
-        <li class="row">
-          <a class="row-link" href="server/baseRentalQRInfo?projectID=1048&amp;type=search&amp;x-success=https://ichi-plus-dev2.zyyx.jp/rental/search/rental_list/1047?back163409&amp;workerID=W03729">
-            <span class="row-text">
-              <span class="row-name">search 1048 W03729</span>
-              <span class="row-path">/server/baseRentalQRInfo</span>
-              <span class="row-params">projectID=1048 · type=search · workerID=W03729</span>
-            </span>
-            <svg class="ic ic-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
-          </a>
-          <button class="icon-btn qr-btn" type="button" data-name="search 1048 W03729" aria-label="Hiện mã QR: search 1048 W03729"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="5" height="5" x="3" y="3" rx="1"/><rect width="5" height="5" x="16" y="3" rx="1"/><rect width="5" height="5" x="3" y="16" rx="1"/><path d="M21 16h-3a2 2 0 0 0-2 2v3"/><path d="M21 21v.01"/><path d="M12 7v3a2 2 0 0 1-2 2H7"/><path d="M3 12h.01"/><path d="M12 3h.01"/><path d="M12 16v.01"/><path d="M16 12h1"/><path d="M21 12v.01"/><path d="M12 21v-1"/></svg></button>
-        </li>
-        <li class="row">
-          <a class="row-link" href="server/baseRentalQRInfo?projectID=1047&amp;type=search&amp;x-success=https://ichi-plus-dev2.zyyx.jp/rental/search/rental_list/1047?back163409&amp;workerID=W03729">
-            <span class="row-text">
-              <span class="row-name">search 1047 W03729</span>
-              <span class="row-path">/server/baseRentalQRInfo</span>
-              <span class="row-params">projectID=1047 · type=search · workerID=W03729</span>
-            </span>
-            <svg class="ic ic-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
-          </a>
-          <button class="icon-btn qr-btn" type="button" data-name="search 1047 W03729" aria-label="Hiện mã QR: search 1047 W03729"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="5" height="5" x="3" y="3" rx="1"/><rect width="5" height="5" x="16" y="3" rx="1"/><rect width="5" height="5" x="3" y="16" rx="1"/><path d="M21 16h-3a2 2 0 0 0-2 2v3"/><path d="M21 21v.01"/><path d="M12 7v3a2 2 0 0 1-2 2H7"/><path d="M3 12h.01"/><path d="M12 3h.01"/><path d="M12 16v.01"/><path d="M16 12h1"/><path d="M21 12v.01"/><path d="M12 21v-1"/></svg></button>
-        </li>
-      </ul>
+    <section class="group" aria-labelledby="g-base-rental-qr-info" data-static>
+      <h2 class="group-title" id="g-base-rental-qr-info">Base Rental QR Info</h2>
+      <div class="card builder" data-path="server/baseRentalQRInfo" data-project="projectID" data-params="projectID type x-success workerID">
+        <div class="presets" role="group" aria-label="Chọn nhanh projectID">
+          <button class="chip" type="button" data-value="1047">1047</button>
+          <button class="chip" type="button" data-value="1048">1048</button>
+        </div>
+        <div class="fields">
+          <div class="field">
+            <label for="br-project">projectID</label>
+            <input id="br-project" data-param="projectID" type="text" inputmode="numeric" value="1047" autocomplete="off" autocapitalize="off" spellcheck="false">
+          </div>
+          <div class="field">
+            <label for="br-type">type</label>
+            <select id="br-type" data-param="type">
+              <option value="inventory" selected>inventory</option>
+              <option value="search">search</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="br-worker">workerID</label>
+            <input id="br-worker" data-param="workerID" type="text" value="W03729" autocomplete="off" autocapitalize="off" spellcheck="false">
+          </div>
+          <div class="field field-wide">
+            <label for="br-success">x-success</label>
+            <input id="br-success" data-param="x-success" type="url" value="https://ichi-plus-dev2.zyyx.jp/rental/search/rental_list/1047?back163409" autocomplete="off" autocapitalize="off" spellcheck="false">
+          </div>
+        </div>
+        <p class="qr-url"></p>
+        <div class="actions actions-3">
+          <button class="btn btn-copy" type="button"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg><span>Sao chép</span></button>
+          <button class="btn btn-qr" type="button"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="5" height="5" x="3" y="3" rx="1"/><rect width="5" height="5" x="16" y="3" rx="1"/><rect width="5" height="5" x="3" y="16" rx="1"/><path d="M21 16h-3a2 2 0 0 0-2 2v3"/><path d="M21 21v.01"/><path d="M12 7v3a2 2 0 0 1-2 2H7"/><path d="M3 12h.01"/><path d="M12 3h.01"/><path d="M12 16v.01"/><path d="M16 12h1"/><path d="M21 12v.01"/><path d="M12 21v-1"/></svg><span>Hiện QR</span></button>
+          <a class="btn btn-primary" href="#">Mở link</a>
+        </div>
+      </div>
     </section>
 
     <section class="group" aria-labelledby="g-khác">
@@ -584,16 +597,19 @@
 
   /* QR dialog */
   var sheet = $('sheet'), sheetUrl = '';
+  function openSheet(name, url) {
+    sheetUrl = url;
+    $('sheet-title').textContent = name;
+    $('sheet-url').textContent = sheetUrl;
+    $('sheet-open').href = sheetUrl;
+    renderQr($('sheet-qr'), sheetUrl);
+    if (typeof sheet.showModal === 'function') sheet.showModal();
+    else window.open(sheetUrl, '_blank');
+  }
   document.querySelectorAll('.qr-btn').forEach(function (btn) {
     btn.addEventListener('click', function () {
       var link = btn.parentNode.querySelector('.row-link');
-      sheetUrl = absolute(link.getAttribute('href'));
-      $('sheet-title').textContent = btn.dataset.name;
-      $('sheet-url').textContent = sheetUrl;
-      $('sheet-open').href = sheetUrl;
-      renderQr($('sheet-qr'), sheetUrl);
-      if (typeof sheet.showModal === 'function') sheet.showModal();
-      else window.open(sheetUrl, '_blank');
+      openSheet(btn.dataset.name, absolute(link.getAttribute('href')));
     });
   });
   $('sheet-close').addEventListener('click', function () { sheet.close(); });
@@ -623,6 +639,57 @@
   equip.addEventListener('input', updateBuilder);
   $('ce-copy').addEventListener('click', function () { if (ceUrl) copy(ceUrl, this); });
   updateBuilder();
+
+  /* Param builders (QRreader / baseQRInfo / baseRentalQRInfo) */
+  // Chỉ mã hoá ký tự làm vỡ query, để URL mặc định giống link cũ (x-success để nguyên dạng https://…?back…)
+  function encParam(v) { return v.replace(/[%&#+\s]/g, encodeURIComponent); }
+  document.querySelectorAll('.builder[data-path]').forEach(function (card) {
+    var key = card.dataset.project, order = card.dataset.params.split(' '), inputs = {};
+    card.querySelectorAll('[data-param]').forEach(function (el) { inputs[el.dataset.param] = el; });
+    var project = inputs[key], success = inputs['x-success'];
+    var chips = card.querySelectorAll('.chip'), urlEl = card.querySelector('.qr-url');
+    var openBtn = card.querySelector('.btn-primary'), copyBtn = card.querySelector('.btn-copy'), qrBtn = card.querySelector('.btn-qr'), url = '';
+    var name = card.closest('.group').querySelector('.group-title').textContent.trim();
+
+    // x-success đổi đoạn /rental_list/<id> theo projectID
+    function syncSuccess() {
+      if (success) success.value = success.value.replace(/(\/rental_list\/)[^\/?#&]*/, '$1' + project.value.trim());
+    }
+    function update() {
+      var p = project.value.trim();
+      chips.forEach(function (c) { c.setAttribute('aria-pressed', c.dataset.value === p ? 'true' : 'false'); });
+      openBtn.setAttribute('aria-disabled', p ? 'false' : 'true');
+      copyBtn.disabled = qrBtn.disabled = !p;
+      urlEl.classList.toggle('hint', !p);
+      if (!p) {
+        url = '';
+        urlEl.textContent = 'Nhập ' + key;
+        openBtn.href = '#';
+        return;
+      }
+      // Ô trống thì bỏ param đó khỏi URL
+      var query = order.map(function (name) {
+        var v = inputs[name].value.trim();
+        return v ? name + '=' + encParam(v) : '';
+      }).filter(Boolean).join('&');
+      // Chỉ hiện path + query (không có domain), URL đầy đủ dùng cho Sao chép / QR / Mở link
+      var rel = '/' + card.dataset.path + '?' + query;
+      url = ORIGIN + rel;
+      urlEl.textContent = rel;
+      openBtn.href = url;
+    }
+
+    project.addEventListener('input', function () { syncSuccess(); update(); });
+    Object.keys(inputs).forEach(function (name) {
+      if (inputs[name] !== project) inputs[name].addEventListener(inputs[name].tagName === 'SELECT' ? 'change' : 'input', update);
+    });
+    chips.forEach(function (c) {
+      c.addEventListener('click', function () { project.value = c.dataset.value; syncSuccess(); update(); });
+    });
+    copyBtn.addEventListener('click', function () { if (url) copy(url, this); });
+    qrBtn.addEventListener('click', function () { if (url) openSheet(name, url); });
+    update();
+  });
 
   /* Filter */
   var filter = $('filter');
